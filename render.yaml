@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: sso-hfag-teste
+    name: sso-dirap-teste
     runtime: docker
     plan: free
     healthCheckPath: /login
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: sso-hfag-teste-db
+          name: sso-dirap-teste-db
           property: connectionString
       - key: SSO_ADMIN_EMAIL
         sync: false
@@ -15,7 +15,7 @@ services:
         sync: false
 
 databases:
-  - name: sso-hfag-teste-db
-    databaseName: sso_hfag_teste
+  - name: sso-dirap-teste-db
+    databaseName: sso_dirap_teste
     plan: free
     ipAllowList: []
