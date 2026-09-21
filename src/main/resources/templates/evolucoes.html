@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Evoluções | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main>
+    <h1>Evoluções</h1>
+    <section class="card table-wrap">
+        <h2>Recentes evoluções</h2>
+        <p class="section-subtitle">Detalhes das últimas 50 evoluções no sistema.</p>
+        <table>
+            <thead><tr>
+                <th>#Id Cadastro</th><th>Protocolo</th><th>Nome / Paciente</th><th>SARAM</th>
+                <th>Status</th><th>Cadastrador</th><th>Data</th><th></th>
+            </tr></thead>
+            <tbody>
+            <tr th:each="e : ${registros}">
+                <td th:text="${e.atendimento_id}"></td>
+                <td th:text="${e.protocolo}"></td>
+                <td><strong th:text="${e.nome}"></strong><br><small th:text="${e.paciente}"></small></td>
+                <td th:text="${e.saram}"></td>
+                <td><span class="badge" th:classappend="${e.status == 'Resolvido' ? 'done' : 'pending'}" th:text="${e.status}"></span></td>
+                <td th:text="${e.cadastrador}"></td>
+                <td th:text="${e.data}"></td>
+                <td><a th:href="@{/atendimentos/{id}(id=${e.atendimento_id})}" th:aria-label="|Abrir atendimento ${e.atendimento_id}|">Abrir</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(registros)}"><td colspan="8">Nenhuma evolução cadastrada.</td></tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

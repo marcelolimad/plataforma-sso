@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Entrar | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="login-body">
+<div class="login-art"><strong>FAB · DIRAP</strong>
+    <div class="orb"></div>
+    <h1>Serviço Social</h1>
+    <p>Diretoria de Administração do Pessoal</p></div>
+<main class="login-card"><h1>Login</h1>
+    <p>Bem-vindo à plataforma.</p>
+    <div class="notice error" th:if="${param.error}">Email ou senha inválidos.</div>
+    <div class="notice success" th:if="${param.logout}">Sessão encerrada.</div>
+    <form th:action="@{/login}" method="post"><label>Email<input name="username" type="email" required
+                                                                 autocomplete="username"></label><label>Senha<input
+            name="password" type="password" required autocomplete="current-password"></label>
+        <button class="primary">Entrar</button>
+    </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,8 @@
+target/
+.idea/
+.m2/
+.env
+.env.*
+*.dump
+*.backup
+*.zip

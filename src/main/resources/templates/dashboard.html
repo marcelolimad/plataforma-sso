@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main><h1>Seja bem-vindo, <span th:text="${usuario}"></span></h1>
+    <div class="stats">
+        <div><b th:text="${total}">0</b><span>Atendimentos</span></div>
+        <div><b th:text="${pendentes}">0</b><span>Pendentes</span></div>
+        <div><b th:text="${resolvidos}">0</b><span>Resolvidos</span></div>
+        <div><b th:text="${evolucoes}">0</b><span>Evoluções</span></div>
+    </div>
+    <section class="card">
+        <h2>Status dos atendimentos</h2>
+        <div class="status-chart">
+            <div><span th:text="|Pendentes: ${pendentes}|"></span><div class="status-track"><div class="status-pending" th:style="|width: ${pendentesPercentual}%|"></div></div></div>
+            <div><span th:text="|Resolvidos: ${resolvidos}|"></span><div class="status-track"><div class="status-done" th:style="|width: ${resolvidosPercentual}%|"></div></div></div>
+        </div>
+    </section>
+    <section class="card">
+        <h2>Atendimentos por mês</h2>
+        <p class="section-subtitle">Cadastros realizados nos últimos seis meses.</p>
+        <div class="month-chart" role="img" aria-label="Gráfico de atendimentos por mês">
+            <div class="month-chart-item" th:each="item : ${atendimentosMensais}">
+                <strong th:text="${item.total}">0</strong>
+                <div class="month-chart-track"><div class="month-chart-bar" th:style="|height: ${item.percentual}%|"></div></div>
+                <small th:text="${item.mes}"></small>
+            </div>
+        </div>
+    </section>
+    <section class="card">
+        <div class="row-title"><h2>Recentes cadastros de Pacientes</h2><a class="button" th:href="@{/atendimentos/novo}">Novo
+            atendimento</a></div>
+        <p class="section-subtitle">Detalhes dos últimos 10 cadastros de pacientes no sistema.</p>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>#Id Cadastro</th>
+                    <th>Nome / Paciente</th>
+                    <th>SARAM</th>
+                    <th>Status</th>
+                    <th>Cadastrador</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="a:${registros}">
+                    <td><a th:href="@{/atendimentos/{id}(id=${a.id})}" th:text="${a.id}"></a></td>
+                    <td><strong th:text="${a.nome}"></strong><br><small th:text="${a.paciente}"></small></td>
+                    <td th:text="${a.saram}"></td>
+                    <td><span class="badge" th:classappend="${a.status=='Resolvido'?'done':'pending'}"
+                              th:text="${a.status}"></span></td>
+                    <td th:text="${a.cadastrador}"></td>
+                    <td th:text="${a.data}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(registros)}">
+                    <td colspan="6">Nenhum atendimento ainda.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="card">
+        <h2>Recentes evoluções</h2>
+        <p class="section-subtitle">Detalhes das últimas 10 evoluções no sistema.</p>
+        <div class="table-wrap"><table>
+            <thead><tr><th>#Id Cadastro</th><th>Protocolo</th><th>Nome / Paciente</th><th>SARAM</th>
+                <th>Status</th><th>Cadastrador</th><th>Data</th></tr></thead>
+            <tbody>
+            <tr th:each="e : ${evolucoesRecentes}">
+                <td><a th:href="@{/atendimentos/{id}(id=${e.atendimento_id})}" th:text="${e.atendimento_id}"></a></td>
+                <td th:text="${e.protocolo}"></td>
+                <td><strong th:text="${e.nome}"></strong><br><small th:text="${e.paciente}"></small></td>
+                <td th:text="${e.saram}"></td>
+                <td><span class="badge" th:classappend="${e.status=='Resolvido'?'done':'pending'}" th:text="${e.status}"></span></td>
+                <td th:text="${e.cadastrador}"></td>
+                <td th:text="${e.data}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(evolucoesRecentes)}"><td colspan="7">Nenhuma evolução ainda.</td></tr>
+            </tbody>
+        </table></div>
+    </section>
+</main>
+</body>
+</html>

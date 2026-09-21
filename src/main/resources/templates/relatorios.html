@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relatórios | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main><h1>Relatórios de atendimentos</h1>
+    <section class="card">
+        <h2>Tipos de Relatórios do Sistema</h2>
+        <div class="report-options">
+            <a class="button" th:href="@{/relatorios/atendimentos-completos.xlsx}">Atendimento completo</a>
+            <form th:action="@{/relatorios/atendimentos-por-mes.xlsx}" method="get">
+                <label>Mês e ano<input type="month" name="mes" th:value="${mesAtual}" required></label>
+                <button type="submit">Atendimento por mês</button>
+            </form>
+            <form th:action="@{/relatorios/evolucoes-por-mes.xlsx}" method="get">
+                <label>Mês e ano<input type="month" name="mes" th:value="${mesAtual}" required></label>
+                <button type="submit">Evoluções por mês</button>
+            </form>
+        </div>
+    </section>
+    <form method="get" th:action="@{/relatorios}" class="card search"><label>Data inicial<input type="date"
+                                                                                                name="inicio"
+                                                                                                th:value="${inicio}"
+                                                                                                required></label><label>Data
+        final<input type="date" name="fim" th:value="${fim}" required></label>
+        <button class="primary">Gerar</button>
+    </form>
+    <section class="card" th:if="${resumo != null}"><h2>Resumo do período</h2>
+        <div class="stats">
+            <div><b th:text="${resumo.total}"></b><span>Total</span></div>
+            <div><b th:text="${resumo.resolvidos}"></b><span>Resolvidos</span></div>
+            <div><b th:text="${resumo.pendentes}"></b><span>Pendentes</span></div>
+        </div>
+        <h3>Por categoria</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r:${porCategoria}">
+                <td th:text="${r.categoria}"></td>
+                <td th:text="${r.total}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <p th:if="${inicio != null and fim != null and fim.isBefore(inicio)}" class="notice error">A data final deve ser
+        igual ou posterior à inicial.</p></main>
+</body>
+</html>

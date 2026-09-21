@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Usuários | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main><h1>Usuários</h1>
+    <section class="card"><h2>Novo usuário</h2>
+        <form th:action="@{/usuarios}" method="post" class="grid"><label>Nome<input name="nome" maxlength="150"
+                                                                                    required></label><label>Email<input
+                name="email" type="email" maxlength="180" required></label><label>Senha inicial (mínimo 12
+            caracteres)<input name="senha" type="password" minlength="12" required></label><label>Perfil<select
+                name="perfil">
+            <option value="PROFISSIONAL">Profissional</option>
+            <option value="ADMIN">Administrador</option>
+        </select></label>
+            <button class="primary">Criar usuário</button>
+        </form>
+    </section>
+    <section class="card table-wrap"><h2>Contas cadastradas</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Perfil</th>
+                <th>Ativo</th>
+                <th>Redefinir senha</th>
+                <th>Excluir</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u:${registros}">
+                <td th:text="${u.nome}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.perfil}"></td>
+                <td th:text="${u.ativo?'Sim':'Não'}"></td>
+                <td>
+                    <form th:if="${u.ativo}" th:action="@{/usuarios/{id}/senha(id=${u.id})}" method="post"
+                          class="reset-password"><input name="novaSenha" type="password" minlength="12" required
+                                                        autocomplete="new-password" aria-label="Nova senha"
+                                                        placeholder="Nova senha (12+ caracteres)">
+                        <button type="submit">Redefinir</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:if="${u.ativo and u.id != usuarioId}" th:action="@{/usuarios/{id}/excluir(id=${u.id})}"
+                          method="post"
+                          onsubmit="return confirm('Excluir este usuário? Ele perderá o acesso e os registros anteriores serão preservados.')">
+                        <button type="submit" class="danger">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>
+
+

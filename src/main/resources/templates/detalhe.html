@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Atendimento | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main><a th:href="@{/atendimentos}">← Voltar</a>
+    <div class="row-title"><h1 th:text="|Atendimento ${a.protocolo}|"></h1><span class="badge"
+                                                                                 th:classappend="${a.status=='Resolvido'?'done':'pending'}"
+                                                                                 th:text="${a.status}"></span></div>
+    <section class="card"><h2>Dados do atendimento</h2>
+        <div class="facts">
+            <div><small>Nome</small><strong th:text="${a.nome}"></strong></div>
+            <div><small>Paciente</small><strong th:text="${a.paciente}"></strong></div>
+            <div><small>SARAM</small><strong th:text="${a.saram}"></strong></div>
+            <div><small>Categoria</small><strong th:text="${a.categoria}"></strong></div>
+            <div><small>Situação</small><strong th:text="${a.situacao}"></strong></div>
+            <div><small>Tipo</small><strong th:text="${a.tipo}"></strong></div>
+            <div><small>Classificação</small><strong th:text="${a.classificacao}"></strong></div>
+            <div><small>Cadastrador</small><strong th:text="${a.cadastrador}"></strong></div>
+        </div>
+        <h3>Descrição inicial</h3>
+        <p class="pre" th:text="${a.descricao}"></p>
+        <h3>Encaminhamento</h3>
+        <p class="pre" th:text="${a.encaminhamento}"></p></section>
+    <section class="card"><h2>Nova evolução</h2>
+        <form th:action="@{/atendimentos/{id}/evolucoes(id=${a.id})}" method="post"><input type="hidden" name="versao"
+                                                                                           th:value="${a.versao}"><label>Texto
+            da evolução *<textarea name="texto" maxlength="1500" required></textarea></label><label>Status após evolução<select
+                name="status">
+            <option value="Pendente" th:selected="${a.status=='Pendente'}">Pendente</option>
+            <option value="Resolvido" th:selected="${a.status=='Resolvido'}">Resolvido</option>
+        </select></label>
+            <button class="primary">Salvar evolução</button>
+        </form>
+    </section>
+    <section class="card"><h2>Histórico de evoluções</h2>
+        <p th:if="${#lists.isEmpty(historico)}">Nenhuma evolução cadastrada.</p>
+        <article class="history" th:each="e:${historico}">
+            <div class="row-title"><strong th:text="${e.autor}"></strong><small th:text="${e.data}"></small></div>
+            <p class="pre" th:text="${e.texto}"></p><span class="badge"
+                                                          th:classappend="${e.status_apos=='Resolvido'?'done':'pending'}"
+                                                          th:text="${e.status_apos}"></span></article>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
+
+

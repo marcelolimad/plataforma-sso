@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Atendimentos | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main>
+    <div class="row-title"><h1>Atendimentos</h1><a class="button" th:href="@{/atendimentos/novo}">Novo atendimento</a>
+    </div>
+    <form method="get" th:action="@{/atendimentos}" class="search"><input name="busca" th:value="${busca}"
+                                                                          placeholder="Nome, paciente, SARAM ou protocolo">
+        <button>Pesquisar</button>
+    </form>
+    <section class="card table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>Protocolo</th>
+                <th>Nome / Paciente</th>
+                <th>SARAM</th>
+                <th>Status</th>
+                <th>Cadastrador</th>
+                <th>Data</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="a:${registros}">
+                <td th:text="${a.protocolo}"></td>
+                <td><strong th:text="${a.nome}"></strong><br><small th:text="${a.paciente}"></small></td>
+                <td th:text="${a.saram}"></td>
+                <td><span class="badge" th:classappend="${a.status=='Resolvido'?'done':'pending'}"
+                          th:text="${a.status}"></span></td>
+                <td th:text="${a.cadastrador}"></td>
+                <td th:text="${a.data}"></td>
+                <td><a th:href="@{/atendimentos/{id}(id=${a.id})}">Abrir</a></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(registros)}">
+                <td colspan="7">Nenhum resultado.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+    <p class="muted">Mostrando até 200 registros. Use a pesquisa para localizar os demais.</p></main>
+</body>
+</html>
+

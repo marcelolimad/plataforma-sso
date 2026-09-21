@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Novo atendimento | SSO_DIRAP</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: top}"></div>
+<main><h1>Novo atendimento</h1>
+    <div class="notice error" th:if="${formError}">Revise os campos obrigatórios e os limites de caracteres.</div>
+    <form class="card form" th:action="@{/atendimentos}" th:object="${form}" method="post"><h2>Dados pessoais</h2>
+        <div class="grid"><label class="wide">Nome completo *<input th:field="*{nome}" maxlength="180" required></label><label
+                class="wide">Nome do paciente *<input th:field="*{paciente}" maxlength="180" required></label><label>SARAM
+            *<input th:field="*{saram}" maxlength="30" required></label><label>Idade<input th:field="*{idade}"
+                                                                                           maxlength="10"></label><label>Bairro<input
+                th:field="*{bairro}" maxlength="120"></label><label>Residência<input th:field="*{residencia}"
+                                                                                     maxlength="30"></label><label>Celular<input
+                th:field="*{celular}" maxlength="30"></label><label>Vínculo<select th:field="*{vinculo}">
+            <option value="">Selecione</option>
+            <option value="Dependente AMH">Dependente AMH</option>
+            <option value="Dependente AMHC">Dependente AMHC</option>
+            <option value="Militar da Ativa">Militar da Ativa</option>
+            <option value="Militar Reserva">Militar Reserva</option>
+            <option value="Pensionista">Pensionista</option>
+            <option value="NTD">NTD</option>
+        </select></label><label>Meio de contato<select th:field="*{meioContato}">
+            <option value="">Selecione</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Telefone">Telefone</option>
+            <option value="Email">Email</option>
+            <option value="Formulário Ouvidoria">Formulário Ouvidoria</option>
+        </select></label><label>Categoria<select th:field="*{categoria}">
+            <option value="">Selecione</option>
+            <option value="Ouvidoria">Ouvidoria</option>
+            <option value="Serviço Social">Serviço Social</option>
+        </select></label><label>Situação<input th:field="*{situacao}" maxlength="120"></label><label>Tipo<input
+                th:field="*{tipo}" maxlength="120"></label><label>Classificação<input th:field="*{classificacao}"
+                                                                                      maxlength="120"></label><label>Resolvido?<select
+                th:field="*{status}">
+            <option value="Pendente">Não</option>
+            <option value="Resolvido">Sim</option>
+        </select></label><label>Estado<select th:field="*{estado}">
+            <option value="">Selecione</option>
+            <option value="Encaminhamento Interno">Encaminhamento Interno</option>
+            <option value="Encaminhamento Externo">Encaminhamento Externo</option>
+            <option value="Orientação">Orientação</option>
+            <option value="Solicitação">Solicitação</option>
+            <option value="Autorização">Autorização</option>
+        </select></label><label class="wide">Descrição *<textarea th:field="*{descricao}" maxlength="1500"
+                                                                  required></textarea></label><label class="wide">Encaminhamento<textarea
+                th:field="*{encaminhamento}" maxlength="1500"></textarea></label></div>
+        <button class="primary">Salvar atendimento</button>
+    </form>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
+
+
+
+

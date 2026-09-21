@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="top">
+    <header><strong>SSO_DIRAP</strong><span>Diretoria de Administração do Pessoal</span><span th:text="${usuario}"></span>
+        <form th:action="@{/logout}" method="post">
+            <button>Sair</button>
+        </form>
+    </header>
+    <nav><a th:href="@{/dashboard}">Dashboard</a><a th:href="@{/atendimentos/novo}">Novo atendimento</a>
+        <span class="nav-label">Exibir</span>
+        <a class="nav-subitem" th:href="@{/atendimentos}">Atendimentos</a>
+        <a class="nav-subitem" th:href="@{/evolucoes}">Evoluções</a>
+        <a th:href="@{/relatorios}">Relatórios</a><a
+            th:if="${administrador}" th:href="@{/usuarios}">Usuários</a></nav>
+    <div class="notice success" th:if="${mensagem}" th:text="${mensagem}"></div>
+    <div class="notice error" th:if="${erro}" th:text="${erro}"></div>
+</div>
+</body>
+</html>
